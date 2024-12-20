@@ -144,7 +144,9 @@ io.on("connection", (socket) => {
     socket.leave();
   });
 });
-
+app.get("/", (req, res) => {
+  res.send("<p>Hello world</p>");
+});
 app.post("/compile", async (req, res) => {
   const { code, language } = req.body;
 
