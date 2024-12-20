@@ -27,15 +27,18 @@ const languageConfig = {
   r: { versionIndex: "3" },
 };
 
-// Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST"],
+  })
+);
 
-// Parse JSON bodies
 app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST"],
   },
 });
@@ -123,7 +126,7 @@ io.on("connection", (socket) => {
     });
   });
 
-    // sync the code
+  // sync the code
   socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
     socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
   });
@@ -146,7 +149,6 @@ io.on("connection", (socket) => {
     socket.leave();
   });
 });
-
 
 app.post("/compile", async (req, res) => {
   const { code, language } = req.body;
