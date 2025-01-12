@@ -33,7 +33,7 @@ app.use(express.json());
 
 const io = new Server(server, {
   cors: {
-    origin: "https://code-meet-frontend.vercel.app",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
